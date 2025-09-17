@@ -1,27 +1,42 @@
 import React from "react";
-import { App, ZMPRouter, SnackbarProvider } from "zmp-ui";
+import { App, ZMPRouter } from "zmp-ui";
 import { RecoilRoot } from "recoil";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { getConfig } from "../utils/config";
 import { Layout } from "./layout";
 import { ConfigProvider } from "./config-provider";
 
+// Tạo QueryClient instance
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      staleTime: 5 * 60 * 1000, // 5 phút
+      refetchOnWindowFocus: false,
+    },
+    mutations: {
+      retry: 1,
+    },
+  },
+});
+
 const MyApp = () => {
   return (
     <RecoilRoot>
-      <ConfigProvider
-        cssVariables={{
-          "--zmp-primary-color": getConfig((c) => c.template.primaryColor),
-          "--zmp-background-color": "#f4f5f6",
-        }}
-      >
-        <App>
-          <SnackbarProvider>
+      <QueryClientProvider client={queryClient}>
+        <ConfigProvider
+          cssVariables={{
+            "--zmp-primary-color": getConfig((c) => c.template.primaryColor),
+            "--zmp-background-color": "#f4f5f6",
+          }}
+        >
+          <App>
             <ZMPRouter>
               <Layout />
             </ZMPRouter>
-          </SnackbarProvider>
-        </App>
-      </ConfigProvider>
+          </App>
+        </ConfigProvider>
+      </QueryClientProvider>
     </RecoilRoot>
   );
 };

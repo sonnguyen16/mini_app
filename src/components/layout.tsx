@@ -6,6 +6,7 @@ import CartPage from "../pages/gift";
 import NotificationPage from "../pages/QR";
 import ProfilePage from "../pages/profile";
 import VoucherDetailPage from "../pages/voucher-detail";
+import TransactionHistoryPage from "../pages/transaction-history";
 import { Navigation } from "./navigation";
 import { getSystemInfo } from "zmp-sdk";
 import { ScrollRestoration } from "./scroll-restoration";
@@ -36,6 +37,7 @@ export const Layout: FC = () => {
           <Route path="/cart" element={<CartPage />}></Route>
           <Route path="/profile" element={<ProfilePage />}></Route>
           <Route path="/voucher-detail" element={<VoucherDetailPage />}></Route>
+          <Route path="/transaction-history" element={<TransactionHistoryPage />}></Route>
         </Routes>
       </Box>
       <Navigation />
